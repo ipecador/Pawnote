@@ -8,6 +8,7 @@ export const decodeUserParameters = (parameters: any, session: SessionHandle): U
   switch (session.information.accountKind) {
     case AccountKind.STUDENT:
     case AccountKind.TEACHER:
+    case AccountKind.TEACHER_WEB:
       resources = [parameters.ressource];
       break;
     case AccountKind.PARENT:

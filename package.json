@@ -1,5 +1,5 @@
 {
-  "name": "pawnote",
+  "name": "@pronote-ui/pawnote",
   "version": "1.6.2",
   "description": "A purrfect API wrapper for PRONOTE.",
   "repository": {

@@ -2,6 +2,7 @@ import { AccountKind } from "~/models";
 
 export const encodeAccountKindToPath = (kind: AccountKind): string => {
   let name: string;
+  let mobile = true;
 
   switch (kind) {
     case AccountKind.STUDENT:
@@ -13,7 +14,11 @@ export const encodeAccountKindToPath = (kind: AccountKind): string => {
     case AccountKind.TEACHER:
       name = "professeur";
       break;
+    case AccountKind.TEACHER_WEB:
+      name = "professeur";
+      mobile = false;
+      break;
   }
 
-  return `mobile.${name}.html`;
+  return mobile ? `mobile.${name}.html` : `${name}.html`;
 };
