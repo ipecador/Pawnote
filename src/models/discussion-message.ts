@@ -13,6 +13,7 @@ export type DiscussionMessage = Readonly<{
    * When undefined, the receiver is the user itself.
    */
   receiver?: DiscussionMessageRecipient
+  isSender: boolean
   partialVisibility: boolean
   amountOfRecipients: number
   files: Attachment[]

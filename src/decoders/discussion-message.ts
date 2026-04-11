@@ -38,6 +38,7 @@ export const decodeDiscussionMessage = (message: any, session: SessionHandle): D
     content: message.estHTML ? message.contenu.V : message.contenu,
     creationDate: decodePronoteDate(message.date.V),
     author, receiver,
+    isSender: message.emetteur,
     partialVisibility: message.estUnAparte,
     amountOfRecipients: (message.nbPublic ?? 1) + 1, // `+1` because the author is also a recipient.
     files: message.listeDocumentsJoints?.V.map((attachment: any) => decodeAttachment(attachment, session)) ?? []
