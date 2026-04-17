@@ -14,6 +14,7 @@ export * from "./assignment-remove-file";
 export * from "./assignment-status";
 export * from "./assignment-upload-file";
 export * from "./assignments";
+export * from "./diffusion-lists";
 export * from "./discussion-create-draft";
 export * from "./discussion-archive";
 export * from "./discussion-delete";

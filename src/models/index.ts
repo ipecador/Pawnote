@@ -22,6 +22,7 @@ export * from "./discussion-send-action";
 export * from "./discussion-sent-message";
 export * from "./discussion";
 export * from "./discussions";
+export * from "./diffusion-list";
 export * from "./dish-kind";
 export * from "./document-file-format";
 export * from "./document-kind";
