@@ -15,7 +15,12 @@ export const publicStaff = async (session: SessionHandle): Promise<Array<PublicS
     [properties.data]: {
       genres: { _T: 26, V: `[${EntityKind.Personal}]` },
       pourMessagerie: true,
+      sansFiltreSurEleve: true,
       avecFonctionPersonnel: true,
+      avecInfoRencontresSepareesDesResponsables: false,
+      avecInfoResponsablePreferentiel: false,
+      avecUniquementResponsableDelegue: false,
+      estCtxModeleActualite: false,
     }
   });
 

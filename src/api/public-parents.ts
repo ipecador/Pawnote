@@ -15,7 +15,12 @@ export const publicParents = async (session: SessionHandle): Promise<Array<Publi
     [properties.data]: {
       genres: { _T: 26, V: `[${EntityKind.Responsable}]` },
       pourMessagerie: true,
+      sansFiltreSurEleve: true,
       avecFonctionPersonnel: true,
+      avecInfoRencontresSepareesDesResponsables: false,
+      avecInfoResponsablePreferentiel: false,
+      avecUniquementResponsableDelegue: false,
+      estCtxModeleActualite: false,
     }
   });
 

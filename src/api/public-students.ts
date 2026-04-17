@@ -15,7 +15,12 @@ export const publicStudents = async (session: SessionHandle): Promise<Array<Publ
     [properties.data]: {
       genres: { _T: 26, V: `[${EntityKind.Student}]` },
       pourMessagerie: true,
+      sansFiltreSurEleve: true,
       avecFonctionPersonnel: true,
+      avecInfoRencontresSepareesDesResponsables: false,
+      avecInfoResponsablePreferentiel: false,
+      avecUniquementResponsableDelegue: false,
+      estCtxModeleActualite: false,
     }
   });
 
