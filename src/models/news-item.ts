@@ -16,6 +16,11 @@ export type NewsItem = Readonly<{
   author: string;
 
   /**
+   * Whether the current user is the author of this item.
+   */
+  isAuthor: boolean;
+
+  /**
    * Low level data about the public information of the user that'll send answers.
    * Used internally when sending answers to the server.
    *

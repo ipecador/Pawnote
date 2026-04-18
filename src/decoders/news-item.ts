@@ -12,7 +12,8 @@ export const decodeNewsItem = (item: any, categories: NewsCategory[]): NewsItem 
     endDate: decodePronoteDate(item.dateFin.V),
 
     author: item.auteur,
-    public: item.public.V,
+    isAuthor: item.estAuteur ?? false,
+    public: item.public?.V,
 
     read: item.lue
   };

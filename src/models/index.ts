@@ -53,6 +53,7 @@ export * from "./new-discussion-recipient-sub-subject";
 export * from "./new-discussion-recipient-subject";
 export * from "./new-discussion-recipient";
 export * from "./news-category";
+export * from "./news-survey-result";
 export * from "./news-information";
 export * from "./news-item";
 export * from "./news-question-choice";
