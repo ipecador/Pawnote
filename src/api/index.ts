@@ -42,6 +42,8 @@ export * from "./new-discussion-recipients";
 export * from "./new-discussion";
 export * from "./news-delete";
 export * from "./news-information-acknowledge";
+export * from "./news-information-results";
+export * from "./news-informations";
 export * from "./news-read";
 export * from "./news-survey-results";
 export * from "./news-survey-send";
