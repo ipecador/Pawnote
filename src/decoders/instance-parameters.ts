@@ -25,10 +25,18 @@ export const decodeInstanceParameters = (parameters: any): InstanceParameters =>
     lastDate: decodePronoteDate(parameters.General.DerniereDate.V),
 
     navigatorIdentifier: parameters.identifiantNav,
+    startings: parameters.General.ListeHeures.V.map((start: any) => start.L),
     endings: parameters.General.ListeHeuresFin.V.map((ending: any) => ending.L),
     periods: parameters.General.ListePeriodes.map(decodePeriod),
     holidays: parameters.General.listeJoursFeries.V.map(decodeHoliday),
     weekFrequencies,
-    blocksPerDay: parameters.General.PlacesParJour
+    blocksPerDay: parameters.General.PlacesParJour,
+    openWeekdays: decodeDomain(parameters.General.JoursOuvres.V),
+    openMornings: decodeDomain(
+      parameters.General.DemiJourneesOuvrees?.[0]?.V ?? "[]",
+    ),
+    openAfternoons: decodeDomain(
+      parameters.General.DemiJourneesOuvrees?.[1]?.V ?? "[]",
+    ),
   };
 };
