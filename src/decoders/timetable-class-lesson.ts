@@ -32,6 +32,7 @@ export const decodeTimetableClassLesson = (item: any, session: SessionHandle): T
         case 17: // Room
           classrooms.push(data.L);
           break;
+        case 1: // Class (used by "Conseil de classe")
         case 2: // Group
           groupNames.push(data.L);
           break;
