@@ -64,4 +64,5 @@ export * from "./security-check-pin";
 export * from "./security-save";
 export * from "./security-source";
 export * from "./session-information";
+export * from "./sticky-note-save";
 export * from "./timetable";

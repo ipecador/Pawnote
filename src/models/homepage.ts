@@ -8,4 +8,6 @@ export type Homepage = Readonly<{
   partnerTurboself?: Partner
 
   links: Array<HomepageLink>
+
+  stickyNote?: string
 }>;

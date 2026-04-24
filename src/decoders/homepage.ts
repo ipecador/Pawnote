@@ -28,6 +28,8 @@ export const decodeHomepage = (page: any): Homepage => {
     partnerARD,
     partnerTurboself,
 
-    links
+    links,
+
+    stickyNote: page.penseBete?.libelle
   };
 };
