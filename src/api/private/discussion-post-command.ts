@@ -21,12 +21,12 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
 
         messagePourReponse: {
           G: 0,
-          N: extra.replyMessageID
+          N: extra.replyMessageID ?? 0
         },
 
-        listeDestinataires: [],
+        listeDestinataires: extra.recipients ?? [],
         listeFichiers: [],
-        objet: ""
+        objet: extra.subject ?? ""
       };
       break;
     case "":

@@ -19,6 +19,7 @@ export * from "./classes-groups";
 export * from "./courses";
 export * from "./diffusion-lists";
 export * from "./discussion-create-draft";
+export * from "./discussion-create-new-discussion-draft";
 export * from "./discussion-archive";
 export * from "./discussion-delete";
 export * from "./discussion-messages";
