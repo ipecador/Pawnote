@@ -20,7 +20,7 @@ export const decodeDiscussionMessages = (messages: any, session: SessionHandle):
 
     drafts.push({
       isHTML,
-      content: isHTML ? draft.V.contenu : draft.V.contenu.V,
+      content: isHTML ? draft.V.contenu.V : draft.V.contenu,
       possessionID: draft.V.N,
       replyMessageID: defaultReplyMessageID
     });
