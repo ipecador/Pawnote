@@ -7,8 +7,9 @@ import { createEntityID } from "./helpers/entity-id";
  * without sending it. The draft appears in the OCEM_Pre_Brouillon folder
  * on the server and is visible from the official PRONOTE clients.
  *
- * The `content` is plain text or HTML depending on whether the account
- * has the advanced discussion editor — same convention as {@link newDiscussion}.
+ * Content is wrapped centrally in {@link discussionPostCommand} based on
+ * the account's `hasAdvancedDiscussionEditor` flag — pass plain text or
+ * HTML as a string here.
  */
 export const discussionCreateNewDiscussionDraft = async (
   session: SessionHandle,
@@ -18,10 +19,7 @@ export const discussionCreateNewDiscussionDraft = async (
 ): Promise<void> => {
   await discussionPostCommand(session, DiscussionCommand.brouillon, {
     id: createEntityID(),
-    content: session.user.authorizations.hasAdvancedDiscussionEditor ? {
-      _T: 21,
-      V: content
-    } : content,
+    content,
     subject,
     recipients: recipients.map((recipient) => ({
       E: EntityState.MODIFICATION,

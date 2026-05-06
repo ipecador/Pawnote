@@ -17,7 +17,10 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
           N: extra.id
         },
 
-        contenu: extra.content,
+        contenu: session.user.authorizations.hasAdvancedDiscussionEditor ? {
+          _T: 21,
+          V: extra.content
+        } : extra.content,
 
         messagePourReponse: {
           G: 0,
@@ -41,7 +44,10 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
           N: extra.id
         },
 
-        contenu: extra.content,
+        contenu: session.user.authorizations.hasAdvancedDiscussionEditor ? {
+          _T: 21,
+          V: extra.content
+        } : extra.content,
         listeDestinataires: [],
         listeFichiers: [],
 

@@ -72,16 +72,44 @@ void async function main () {
 
   await pronote.discussionCreateNewDiscussionDraft(session, subject, content, [recipient]);
 
-  console.info("✓ API call completed without error.");
+  console.info("✓ Create API call completed without error.");
   console.info("");
-  console.info("Next step — open PRONOTE officiel logged in as the same teacher account.");
-  console.info("Go to the 'Brouillons' folder and check that:");
-  console.info("  • A draft titled '" + subject + "' is present");
-  console.info("  • Its recipient is '" + recipient.name + "'");
-  console.info("  • Its content matches the message above");
+
+  // Spike #2 — discover the sendAction value PRONOTE returns for a
+  // new-discussion draft. If sendAction is defined here, the existing
+  // discussionSendDraft (used for replies) should work as-is for sending
+  // a new-discussion draft, and we don't need a separate API function.
+  console.info("Inspecting the draft to discover sendAction…");
+  const all = await pronote.discussions(session);
+  const draftDiscussion = all.items.find((d) => d.subject === subject);
+  if (!draftDiscussion) {
+    console.warn("  Draft discussion not found in the discussions list — abort inspection.");
+    console.warn("  This usually means PRONOTE didn't persist the draft (revisit the spike).");
+    return;
+  }
+
+  const messages = await pronote.discussionMessages(session, draftDiscussion);
   console.info("");
-  console.info("If yes  → hypothesis VALIDATED, scope B is feasible cleanly.");
-  console.info("If no   → API accepted the call but didn't persist a draft, deeper investigation needed.");
+  console.info("  Found draft as Discussion id    :", draftDiscussion.participantsMessageID);
+  console.info("  numberOfMessages (sent count)   :", messages.sents.length);
+  console.info("  numberOfDrafts (drafts in obj)  :", messages.drafts.length);
+  console.info("  sendAction (button.G expected)  :", messages.sendAction);
+  console.info("  canIncludeStudentsAndParents    :", messages.canIncludeStudentsAndParents);
+  if (messages.drafts[0]) {
+    console.info("  drafts[0].possessionID          :", messages.drafts[0].possessionID);
+    console.info("  drafts[0].replyMessageID        :", messages.drafts[0].replyMessageID);
+    console.info("  drafts[0].isHTML                :", messages.drafts[0].isHTML);
+  }
   console.info("");
-  console.info("Once verified, delete the draft manually from PRONOTE officiel.");
+  console.info("Interpreting sendAction:");
+  console.info("  0 = Send                                  (likely for new-disc drafts)");
+  console.info("  1 = SendEveryone                          (likely)");
+  console.info("  2 = ReplyEveryone                         (reply)");
+  console.info("  3 = SendEveryoneExceptParentsAndStudents  (likely)");
+  console.info("  4 = ReplyEveryoneExceptParentsAndStudents (reply)");
+  console.info("  5 = Close");
+  console.info("  undefined → cannot send via discussionSendDraft, need different mechanism");
+  console.info("");
+  console.info("If sendAction is defined → existing discussionSendDraft should work as-is.");
+  console.info("Don't forget to delete the draft manually from PRONOTE officiel.");
 }();
