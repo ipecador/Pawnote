@@ -48,13 +48,15 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
           _T: 21,
           V: extra.content
         } : extra.content,
-        listeDestinataires: [],
+        listeDestinataires: extra.recipients ?? [],
         listeFichiers: [],
 
         messagePourReponse: {
           G: 0,
           N: extra.replyMessageID
-        }
+        },
+
+        objet: extra.subject ?? ""
       };
       break;
     default:
