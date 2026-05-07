@@ -6,9 +6,13 @@ export const decodeDiscussionMessages = (messages: any, session: SessionHandle):
   const draft = messages.brouillon;
   const sents: DiscussionSentMessage[] = [];
   const drafts: DiscussionDraftMessage[] = [];
-  const defaultReplyMessageID: string = messages.messagePourReponse.V.N;
+  // PRONOTE omits messagePourReponse on brouillon-only discussions (no
+  // thread to reply to). Fall back to "0" so callers that pass it through
+  // as a reply target (e.g. brouillon mutation payloads) get the expected
+  // "no reply" sentinel.
+  const defaultReplyMessageID: string = messages.messagePourReponse?.V?.N ?? "0";
 
-  for (const message of messages.listeMessages.V) {
+  for (const message of messages.listeMessages?.V ?? []) {
     if (message.brouillon) drafts.push(decodeDiscussionDraftMessage(message));
     else sents.push(decodeDiscussionSentMessage(message, session, sents));
   }
@@ -26,7 +30,7 @@ export const decodeDiscussionMessages = (messages: any, session: SessionHandle):
     });
   }
 
-  const sendAction: DiscussionSendAction | undefined = messages.listeBoutons.V.find((button: any) => button.L.startsWith("Envoyer"))?.G;
+  const sendAction: DiscussionSendAction | undefined = (messages.listeBoutons?.V ?? []).find((button: any) => button.L.startsWith("Envoyer"))?.G;
   const canIncludeStudentsAndParents = sendAction === DiscussionSendAction.ReplyEveryoneExceptParentsAndStudents
                                     || sendAction === DiscussionSendAction.SendEveryoneExceptParentsAndStudents;
 
