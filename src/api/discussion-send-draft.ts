@@ -1,10 +1,10 @@
-import { type Discussion, DiscussionActionError, type DiscussionDraftMessage, type SessionHandle } from "~/models";
+import { type AttachmentChange, type Discussion, DiscussionActionError, type DiscussionDraftMessage, type SessionHandle } from "~/models";
 import { discussionPostCommand } from "./private/discussion-post-command";
 import { encodeDiscussionSendAction } from "~/encoders/discussion-send-action";
 import { discussions } from "./discussions";
 import { discussionMessages } from "./discussion-messages";
 
-export const discussionSendDraft = async (session: SessionHandle, discussion: Discussion, draft: DiscussionDraftMessage, includeParentsAndStudents = false): Promise<void> => {
+export const discussionSendDraft = async (session: SessionHandle, discussion: Discussion, draft: DiscussionDraftMessage, includeParentsAndStudents = false, files?: AttachmentChange[]): Promise<void> => {
   if (typeof discussion.messages?.sendAction === "undefined")
     throw new DiscussionActionError();
 
@@ -12,7 +12,8 @@ export const discussionSendDraft = async (session: SessionHandle, discussion: Di
     button: encodeDiscussionSendAction(discussion.messages.sendAction, includeParentsAndStudents),
     content: draft.content,
     id: draft.possessionID,
-    replyMessageID: draft.replyMessageID
+    replyMessageID: draft.replyMessageID,
+    files
   });
 
   await discussions(session, discussion.cache);

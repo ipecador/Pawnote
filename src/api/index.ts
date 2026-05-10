@@ -35,6 +35,7 @@ export * from "./discussion-send-message";
 export * from "./discussion-trash";
 export * from "./discussion-unarchive";
 export * from "./discussion-unread";
+export * from "./discussion-upload-file";
 export * from "./discussions";
 export * from "./evaluations";
 export * from "./geolocation";

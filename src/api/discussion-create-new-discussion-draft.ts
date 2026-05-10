@@ -1,4 +1,4 @@
-import { DiscussionCommand, EntityState, type NewDiscussionRecipient, type SessionHandle } from "~/models";
+import { type AttachmentChange, DiscussionCommand, EntityState, type LibraryFile, type NewDiscussionRecipient, type SessionHandle } from "~/models";
 import { discussionPostCommand } from "./private/discussion-post-command";
 import { createEntityID } from "./helpers/entity-id";
 
@@ -15,9 +15,10 @@ export const discussionCreateNewDiscussionDraft = async (
   session: SessionHandle,
   subject: string,
   content: string,
-  recipients: Array<NewDiscussionRecipient>
-): Promise<void> => {
-  await discussionPostCommand(session, DiscussionCommand.brouillon, {
+  recipients: Array<NewDiscussionRecipient>,
+  files?: AttachmentChange[]
+): Promise<{ library?: LibraryFile[] }> => {
+  return discussionPostCommand(session, DiscussionCommand.brouillon, {
     id: createEntityID(),
     content,
     subject,
@@ -25,6 +26,7 @@ export const discussionCreateNewDiscussionDraft = async (
       E: EntityState.MODIFICATION,
       G: recipient.kind,
       N: recipient.id
-    }))
+    })),
+    files
   });
 };

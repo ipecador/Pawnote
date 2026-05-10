@@ -1,4 +1,5 @@
 import { DiscussionDraftMessage, DiscussionMessages, DiscussionSendAction, DiscussionSentMessage, SessionHandle } from "~/models";
+import { decodeAttachment } from "./attachment";
 import { decodeDiscussionDraftMessage } from "./discussion-draft-message";
 import { decodeDiscussionSentMessage } from "./discussion-sent-message";
 
@@ -13,7 +14,7 @@ export const decodeDiscussionMessages = (messages: any, session: SessionHandle):
   const defaultReplyMessageID: string = messages.messagePourReponse?.V?.N ?? "0";
 
   for (const message of messages.listeMessages?.V ?? []) {
-    if (message.brouillon) drafts.push(decodeDiscussionDraftMessage(message));
+    if (message.brouillon) drafts.push(decodeDiscussionDraftMessage(message, session));
     else sents.push(decodeDiscussionSentMessage(message, session, sents));
   }
 
@@ -26,7 +27,15 @@ export const decodeDiscussionMessages = (messages: any, session: SessionHandle):
       isHTML,
       content: isHTML ? draft.V.contenu.V : draft.V.contenu,
       possessionID: draft.V.N,
-      replyMessageID: defaultReplyMessageID
+      replyMessageID: defaultReplyMessageID,
+      files: draft.V.listeDocumentsJoints?.V?.map((a: any) => decodeAttachment(a, session)) ?? [],
+      // Brouillon's explicit destinataires — does NOT include the sender as
+      // an implicit recipient (unlike the participants endpoint).
+      selectedRecipients: draft.V.listeDestinataires?.V?.map((r: any) => ({
+        id: r.N,
+        name: r.L,
+        kind: r.G
+      })) ?? []
     });
   }
 

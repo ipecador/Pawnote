@@ -1,9 +1,26 @@
 import { RequestFN } from "~/core/request-function";
-import { DiscussionCommand, EntityState, TabLocation, type SessionHandle } from "~/models";
+import { type AttachmentChange, DiscussionCommand, DiscussionPostRejectedError, EntityState, type LibraryFile, TabLocation, type SessionHandle } from "~/models";
 import { apiProperties } from "./api-properties";
+import { buildListeFichiers } from "./build-liste-fichiers";
 
-export const discussionPostCommand = async (session: SessionHandle, command: DiscussionCommand | "", extra: any): Promise<void> => {
+const decodeLibrary = (raw: any): LibraryFile[] | undefined => {
+  const entries = raw?.Signature?.listeDonnees?.["0"]?.V;
+  if (!Array.isArray(entries)) return undefined;
+
+  return entries.map((e: any) => ({
+    id: e.N,
+    name: e.L ?? "",
+    modifiable: Boolean(e.modifiable)
+  }));
+};
+
+export const discussionPostCommand = async (
+  session: SessionHandle,
+  command: DiscussionCommand | "",
+  extra: any
+): Promise<{ library?: LibraryFile[] }> => {
   let payload;
+  const listeFichiers = buildListeFichiers(extra.files as AttachmentChange[] | undefined);
 
   switch (command) {
     case DiscussionCommand.brouillon:
@@ -28,7 +45,7 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
         },
 
         listeDestinataires: extra.recipients ?? [],
-        listeFichiers: [],
+        listeFichiers,
         objet: extra.subject ?? ""
       };
       break;
@@ -49,7 +66,7 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
           V: extra.content
         } : extra.content,
         listeDestinataires: extra.recipients ?? [],
-        listeFichiers: [],
+        listeFichiers,
 
         messagePourReponse: {
           G: 0,
@@ -73,5 +90,19 @@ export const discussionPostCommand = async (session: SessionHandle, command: Dis
     [properties.data]: payload
   });
 
-  await request.send();
+  const response = await request.send();
+
+  // PRONOTE returns HTTP 200 with a successful envelope even when the saisie
+  // itself was rejected at the application layer (e.g. a file refused). The
+  // flag lives in `RapportSaisie._erreurSaisie_`, with human messages in
+  // `_messagesErreur_`. Surface it as an error so callers can react.
+  const rapport = response.data?.RapportSaisie;
+  if (rapport?._erreurSaisie_) {
+    const messages: string[] = Array.isArray(rapport._messagesErreur_) ? rapport._messagesErreur_ : [];
+    throw new DiscussionPostRejectedError(messages);
+  }
+
+  return {
+    library: command === DiscussionCommand.brouillon ? decodeLibrary(response.data) : undefined
+  };
 };
