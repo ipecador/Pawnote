@@ -6,5 +6,5 @@ export const decodePublicTeacher = (raw: any): PublicTeacher => ({
   kind: EntityKind.Teacher,
   isPrincipal: raw.estProfPrincipal ?? false,
   isTutor: raw.estProfTuteur ?? false,
-  refusesMessages: raw.refusMess ?? false,
+  refusesMessages: raw.refusMess ?? false
 });

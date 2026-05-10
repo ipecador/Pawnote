@@ -20,7 +20,7 @@ export const publicParents = async (session: SessionHandle): Promise<Array<Publi
       avecInfoRencontresSepareesDesResponsables: false,
       avecInfoResponsablePreferentiel: false,
       avecUniquementResponsableDelegue: false,
-      estCtxModeleActualite: false,
+      estCtxModeleActualite: false
     }
   });
 

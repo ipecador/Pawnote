@@ -12,7 +12,7 @@ import { apiProperties } from "./private/api-properties";
 export const newsInformationResults = async (
   session: SessionHandle,
   informationId: string,
-  informationTitle: string,
+  informationTitle: string
 ): Promise<Array<NewsSurveyQuestionResult>> => {
   const properties = apiProperties(session);
 
@@ -22,9 +22,9 @@ export const newsInformationResults = async (
     [properties.data]: {
       actualite: {
         N: informationId,
-        L: informationTitle,
+        L: informationTitle
       },
-      avecCumulClasses: true,
+      avecCumulClasses: true
     }
   });
 

@@ -1,7 +1,7 @@
 import type {
   NewsSurveyQuestionResult,
   NewsSurveyResultGroup,
-  NewsSurveyResultIndividual,
+  NewsSurveyResultIndividual
 } from "~/models";
 import { decodeDomain } from "./domain";
 
@@ -13,7 +13,7 @@ const decodeIndividual = (raw: any): NewsSurveyResultIndividual => ({
   selectedChoices: raw.domaineReponse
     ? decodeDomain(raw.domaineReponse.V).map((i) => i - 1)
     : [],
-  textResponse: raw.texteReponse ?? "",
+  textResponse: raw.texteReponse ?? ""
 });
 
 const decodeGroup = (raw: any, individuals: NewsSurveyResultIndividual[]): NewsSurveyResultGroup => ({
@@ -24,7 +24,7 @@ const decodeGroup = (raw: any, individuals: NewsSurveyResultIndividual[]): NewsS
   // Pronote 1-indexes these by choice position; slot 0 is padding.
   voteCounts: (raw.valeurCumul ?? []).slice(1),
   votePercents: (raw.percentCumul ?? []).slice(1),
-  individuals,
+  individuals
 });
 
 export const decodeNewsSurveyResults = (data: any): NewsSurveyQuestionResult[] => {
@@ -41,7 +41,7 @@ export const decodeNewsSurveyResults = (data: any): NewsSurveyQuestionResult[] =
       id: question.N,
       label: question.L,
       position: question.P,
-      groups,
+      groups
     };
   });
 };

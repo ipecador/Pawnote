@@ -6,11 +6,11 @@ export const decodePublicStudent = (raw: any): PublicStudent => ({
   kind: EntityKind.Student,
   classes: (raw.classes?.V ?? []).map((c: any) => ({
     id: c.N,
-    name: c.L,
+    name: c.L
   })),
   groups: (raw.groupes?.V ?? []).map((g: any) => ({
     id: g.N,
-    name: g.L,
+    name: g.L
   })),
-  discussionForbidden: raw.discussionInterdit ?? false,
+  discussionForbidden: raw.discussionInterdit ?? false
 });

@@ -6,8 +6,8 @@ const decodeChild = (raw: any): PublicParentChild => ({
   className: raw.classe?.V?.L ?? "",
   groups: (raw.groupes?.V ?? []).map((g: any) => ({
     id: g.N,
-    name: g.L,
-  })),
+    name: g.L
+  }))
 });
 
 export const decodePublicParent = (raw: any): PublicParent => ({
@@ -15,5 +15,5 @@ export const decodePublicParent = (raw: any): PublicParent => ({
   name: raw.L,
   kind: EntityKind.Responsable,
   children: (raw.eleves?.V ?? []).map(decodeChild),
-  discussionForbidden: raw.discussionInterdit ?? false,
+  discussionForbidden: raw.discussionInterdit ?? false
 });

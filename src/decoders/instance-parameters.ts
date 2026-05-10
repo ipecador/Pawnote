@@ -33,10 +33,10 @@ export const decodeInstanceParameters = (parameters: any): InstanceParameters =>
     blocksPerDay: parameters.General.PlacesParJour,
     openWeekdays: decodeDomain(parameters.General.JoursOuvres.V),
     openMornings: decodeDomain(
-      parameters.General.DemiJourneesOuvrees?.[0]?.V ?? "[]",
+      parameters.General.DemiJourneesOuvrees?.[0]?.V ?? "[]"
     ),
     openAfternoons: decodeDomain(
-      parameters.General.DemiJourneesOuvrees?.[1]?.V ?? "[]",
-    ),
+      parameters.General.DemiJourneesOuvrees?.[1]?.V ?? "[]"
+    )
   };
 };

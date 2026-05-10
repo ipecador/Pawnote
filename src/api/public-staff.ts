@@ -20,7 +20,7 @@ export const publicStaff = async (session: SessionHandle): Promise<Array<PublicS
       avecInfoRencontresSepareesDesResponsables: false,
       avecInfoResponsablePreferentiel: false,
       avecUniquementResponsableDelegue: false,
-      estCtxModeleActualite: false,
+      estCtxModeleActualite: false
     }
   });
 

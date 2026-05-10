@@ -10,8 +10,8 @@ export const discussionUnread = async (session: SessionHandle, discussion: Discu
     [properties.data]: {
       commande: "pourLu",
       lu: false,
-      listePossessionsMessages: discussion.possessions,
-    },
+      listePossessionsMessages: discussion.possessions
+    }
   });
 
   await request.send();

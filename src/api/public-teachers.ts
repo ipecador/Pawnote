@@ -20,7 +20,7 @@ export const publicTeachers = async (session: SessionHandle): Promise<Array<Publ
       avecInfoRencontresSepareesDesResponsables: false,
       avecInfoResponsablePreferentiel: false,
       avecUniquementResponsableDelegue: false,
-      estCtxModeleActualite: false,
+      estCtxModeleActualite: false
     }
   });
 

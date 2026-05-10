@@ -13,7 +13,7 @@ import { apiProperties } from "./private/api-properties";
 export const newsSurveyResults = async (
   session: SessionHandle,
   surveyId: string,
-  surveyTitle: string,
+  surveyTitle: string
 ): Promise<Array<NewsSurveyQuestionResult>> => {
   const properties = apiProperties(session);
 
@@ -23,9 +23,9 @@ export const newsSurveyResults = async (
     [properties.data]: {
       actualite: {
         N: surveyId,
-        L: surveyTitle,
+        L: surveyTitle
       },
-      avecCumulClasses: true,
+      avecCumulClasses: true
     }
   });
 
