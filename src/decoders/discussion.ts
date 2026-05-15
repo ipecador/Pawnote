@@ -1,7 +1,12 @@
 import type { _DiscussionsCache } from "~/api/private/discussions-cache";
-import type { Discussion, DiscussionFolder } from "~/models";
+import type { Discussion, DiscussionFolder, PrivateReplyMeta } from "~/models";
 
-export const decodeDiscussion = (discussion: any, folders: DiscussionFolder[], cache: _DiscussionsCache): Discussion => {
+export const decodeDiscussion = (
+  discussion: any,
+  folders: DiscussionFolder[],
+  cache: _DiscussionsCache,
+  privateReplies: PrivateReplyMeta[] = []
+): Discussion => {
   return {
     cache,
     creator: discussion.initiateur,
@@ -14,6 +19,7 @@ export const decodeDiscussion = (discussion: any, folders: DiscussionFolder[], c
     numberOfMessages: discussion.nombreMessages ?? 0,
     numberOfMessagesUnread: discussion.nbNonLus ?? 0,
     closed: discussion.ferme ?? false,
+    privateReplies,
     folders: discussion.listeEtiquettes?.V
       .map((current: any) =>
         folders.find((decoded) => decoded.id === current.N)

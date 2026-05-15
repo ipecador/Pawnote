@@ -1,6 +1,7 @@
 import type { _DiscussionsCache } from "~/api/private/discussions-cache";
 import type { DiscussionFolder } from "./discussion-folder";
 import type { DiscussionMessages } from "./discussion-messages";
+import type { PrivateReplyMeta } from "./private-reply-meta";
 
 export type Discussion = Readonly<{
   creator?: string
@@ -32,6 +33,14 @@ export type Discussion = Readonly<{
   numberOfMessagesUnread: number
   folders: DiscussionFolder[]
   closed: boolean
+
+  /**
+   * Private replies attached to this discussion: a one-to-one
+   * sub-conversation between the current user and another participant,
+   * anchored to a parent broadcast inside the same thread. Always set;
+   * empty when the discussion has no private replies visible to the user.
+   */
+  privateReplies: PrivateReplyMeta[]
 
   /**
    * Internal use only,

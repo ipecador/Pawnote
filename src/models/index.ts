@@ -80,6 +80,7 @@ export * from "./partner";
 export * from "./password-rules";
 export * from "./period";
 export * from "./period-list";
+export * from "./private-reply-meta";
 export * from "./public-parent";
 export * from "./public-staff";
 export * from "./public-student";

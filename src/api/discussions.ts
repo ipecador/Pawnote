@@ -4,6 +4,7 @@ import { decodeDiscussionFolder } from "~/decoders/discussion-folder";
 import { type Discussion, type Discussions, TabLocation, type SessionHandle } from "~/models";
 import type { _DiscussionsCache } from "./private/discussions-cache";
 import { apiProperties } from "./private/api-properties";
+import { collectPrivateReplies } from "./private/collect-private-replies";
 
 /**
  * Retrieve discussions from the server.
@@ -29,13 +30,24 @@ export const discussions = async (session: SessionHandle, cache: _DiscussionsCac
 
   const folders = data.listeEtiquettes.V.map(decodeDiscussionFolder);
 
-  const items: Discussion[] = data.listeMessagerie.V
-    .filter((discussion: any) => {
-      const hasZeroDepth = (discussion.profondeur || 0) === 0;
-      const hasParticipants = discussion.messagePourParticipants?.V.N;
-      return discussion.estUneDiscussion && hasParticipants && hasZeroDepth;
+  // PRONOTE's listeMessagerie is a flattened tree: depth=0 entries are
+  // root discussions; depth=1 entries can be either messages of a root or
+  // private reply sub-discussions flagged `estUneDiscussion`.
+  // We surface the latter on each root via `privateReplies` so the inbox
+  // can show unread counts without fetching each thread's messages.
+  const raw: any[] = data.listeMessagerie.V;
+  const privateRepliesByRootIndex = collectPrivateReplies(raw);
+
+  const items: Discussion[] = raw
+    .map((entry: any, index: number) => ({ entry, index }))
+    .filter(({ entry }: { entry: any }) => {
+      const hasZeroDepth = (entry.profondeur || 0) === 0;
+      const hasParticipants = entry.messagePourParticipants?.V.N;
+      return entry.estUneDiscussion && hasParticipants && hasZeroDepth;
     })
-    .map((discussion: any) => decodeDiscussion(discussion, folders, cache));
+    .map(({ entry, index }: { entry: any; index: number }) =>
+      decodeDiscussion(entry, folders, cache, privateRepliesByRootIndex.get(index) ?? [])
+    );
 
   // This is a trick to keep the reference to the items
   // in the cache, while updating the items.
