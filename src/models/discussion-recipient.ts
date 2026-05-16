@@ -1,8 +1,8 @@
-import { EntityKind } from "./entity-kind";
+import type { EntityKind } from "./entity-kind";
 
 export type DiscussionRecipient = Readonly<{
   id: string
   name: string;
-  kind: typeof EntityKind.Teacher | typeof EntityKind.Student | typeof EntityKind.Personal;
+  kind: EntityKind;
   disallowMessages: boolean;
 }>;
