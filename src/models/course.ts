@@ -7,4 +7,11 @@ export type Course = Readonly<{
   teachers: Array<{ id?: string; name: string }>;
   withoutGrades: boolean;
   subCourses: Course[];
+  /**
+   * Decimal value of `coefficientGeneral.V` when present in the source
+   * response. Available from `PageNotes`; absent from `ListeServices`.
+   */
+  coefficientGeneral?: number;
+  /** Mirrors `facultatif` when present in the source response. */
+  facultatif?: boolean;
 }>;

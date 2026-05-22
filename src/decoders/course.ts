@@ -10,6 +10,12 @@ const decodeTeacher = (raw: any): { id?: string; name: string } => ({
   name: raw.L
 });
 
+const decodePronoteDecimal = (raw: unknown): number | undefined => {
+  if (typeof raw !== "string") return undefined;
+  const parsed = parseFloat(raw.replace(",", "."));
+  return Number.isFinite(parsed) ? parsed : undefined;
+};
+
 export const decodeCourse = (course: any): Course => ({
   id: course.N,
   name: course.L,
@@ -18,5 +24,7 @@ export const decodeCourse = (course: any): Course => ({
   groupRef: course.groupe?.V ? decodeRef(course.groupe.V) : undefined,
   teachers: (course.listeProfesseurs?.V ?? []).map(decodeTeacher),
   withoutGrades: course.estSansNote === true,
-  subCourses: (course.services?.V ?? []).map(decodeCourse)
+  subCourses: (course.services?.V ?? []).map(decodeCourse),
+  coefficientGeneral: decodePronoteDecimal(course.coefficientGeneral?.V),
+  facultatif: typeof course.facultatif === "boolean" ? course.facultatif : undefined
 });
