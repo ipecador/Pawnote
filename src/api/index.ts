@@ -77,4 +77,5 @@ export * from "./sticky-note-save";
 export * from "./teacher-assignment-create";
 export * from "./teacher-assignment-delete";
 export * from "./teacher-assignment-update";
+export * from "./teacher-grade-save";
 export * from "./timetable";

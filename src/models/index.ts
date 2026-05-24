@@ -101,6 +101,7 @@ export * from "./tab-location";
 export * from "./tab";
 export * from "./teacher-assignment-input";
 export * from "./teacher-assignment";
+export * from "./teacher-grade-value";
 export * from "./timetable-class-activity";
 export * from "./timetable-class-detention";
 export * from "./timetable-class-lesson";
