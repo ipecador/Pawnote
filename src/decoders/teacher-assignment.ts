@@ -47,13 +47,16 @@ const decodeCategory = (category: any): { id: string; name: string; color?: stri
   color: category.couleur
 });
 
+/** Parse a Pronote decimal string (comma-separated) into a JS number. */
+const parsePronoteDecimal = (raw: string): number => parseFloat(raw.replace(",", "."));
+
 export const decodeTeacherAssignment = (teacherAssignment: any): TeacherAssignment => ({
   id: teacherAssignment.N,
   title: teacherAssignment.commentaire ?? "",
   date: decodePronoteDate(teacherAssignment.date.V),
   publicationDate: decodePronoteDate(teacherAssignment.datePublication.V),
-  outOf: parseFloat(teacherAssignment.bareme.V),
-  coefficient: parseFloat(teacherAssignment.coefficient.V),
+  outOf: parsePronoteDecimal(teacherAssignment.bareme.V),
+  coefficient: parsePronoteDecimal(teacherAssignment.coefficient.V),
   rescaledTo20: teacherAssignment.ramenerSur20 === true,
   asBonus: teacherAssignment.commeUnBonus === true,
   asGrade: teacherAssignment.commeUneNote === true,
